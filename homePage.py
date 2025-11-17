@@ -23,7 +23,7 @@ def main():
 
     if page == "Home":
         homePage()
-    elif page == "Projects":
+    elif page == "Products":
         st.switch_page("pages/Products.py")
     elif page == "Presentations":
         st.switch_page("pages/Presentations.py")
@@ -32,7 +32,7 @@ def main():
         st.switch_page("pages/Story.py")
     elif page == "Contact":
         # st.title("Contact Page")
-        st.write("pages/Contact.py")
+        st.switch_page("pages/Contact.py")
             
 
 main()
