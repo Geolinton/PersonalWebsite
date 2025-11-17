@@ -19,20 +19,20 @@ def homePage():
 
 def main():
     st.sidebar.title("Navigation")
-    page = st.sidebar.selectbox("Go to", ["Home", "Train Model", "Detailed Results", "About", "Contact"])
+    page = st.sidebar.selectbox("Go to", ["Home", "Products", "Presentations", "Story", "Contact"])
 
     if page == "Home":
         homePage()
-    elif page == "Train Model":
-        st.switch_page("pages/trainModel.py")
-    elif page == "Detailed Results":
-        st.switch_page("pages/resultsExp.py")
-    elif page == "About":
-        st.title("About Page")
-        st.write("This is the about page.")
+    elif page == "Projects":
+        st.switch_page("pages/Products.py")
+    elif page == "Presentations":
+        st.switch_page("pages/Presentations.py")
+    elif page == "Story":
+        # st.title("About Page")
+        st.switch_page("pages/Story.py")
     elif page == "Contact":
-        st.title("Contact Page")
-        st.write("This is the contact page.")
+        # st.title("Contact Page")
+        st.write("pages/Contact.py")
             
 
 main()
