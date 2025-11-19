@@ -12,8 +12,8 @@ def contactPage():
 
 def main():
     # st.sidebar.title("Navigation")
-    # page = st.sidebar.selectbox("Go to", ["Contact", "Home", "Products", "Presentations", "Story"])
-    page = "Contact"
+    page = st.sidebar.selectbox("Go to", ["Contact", "Home", "Products", "Presentations", "Story"])
+    # page = "Contact"
 
     if page == "Contact":
         contactPage()

@@ -12,8 +12,8 @@ def presentationsPage():
 
 def main():
     # st.sidebar.title("Navigation")
-    # page = st.sidebar.selectbox("Go to", ["Products", "Home", "Presentations", "Story", "Contact"])
-    page = "Presentations"
+    page = st.sidebar.selectbox("Go to", ["Presentations", "Home", "Products", "Story", "Contact"])
+    # page = "Presentations"
 
     if page == "Presentations":
         presentationsPage()

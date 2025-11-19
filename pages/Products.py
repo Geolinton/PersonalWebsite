@@ -1,9 +1,47 @@
 import streamlit as st
+import time
 
 page_title = "Praise's Products Page"
 st.set_page_config(page_title=page_title, page_icon=":house_with_garden:",layout="wide", initial_sidebar_state="auto")
 
-productsList = []
+
+done = True
+newProductInfo = ""
+
+
+class Product:
+    def __init__(self, name, description, link):
+        self.name = name
+        self.description = description
+        self.link = link
+    
+    def displayProduct(self):
+        with st.container(height = 150, border=False):
+            st.info(f"""
+                {self.name}\n
+                {self.description}\n
+                [Learn more]({self.link})
+                    """)
+            # st.subheader(self.name)
+            # st.write(self.description)
+            # st.markdown(f"[Learn more]({self.link})")
+
+    def addProduct(name, desc, link):
+        newProduct = Product(name, desc, link)
+        st.session_state.productsList.append(newProduct)
+    
+    def removeProduct(name):
+        global productsList
+        productsList = [product for product in productsList if product.name != name]
+
+productsList = [
+    Product("Fisher", "A digital fish finding system", "www.fisherman.com"),
+    Product("Pricer", "A digital price finding system", "www.Pricerman.com"),
+    Product("Vaulter", "A digital vault finding system", "www.Vaulterman.com")
+]
+
+if "productsList" not in st.session_state:
+    st.session_state.productsList = productsList
 
 def productsPage():
     st.title(page_title + " :house_with_garden:")
@@ -17,29 +55,32 @@ def productsPage():
 
         with prjs:
             st.header("Projects")
-            st.markdown("""
-            - **Project 1**: Description of project 1.
-            - **Project 2**: Description of project 2.
-            - **Project 3**: Description of project 3.
-            """)
+            # show current projects
             with st.container():
-                # input("Add a new project (name, description, link):")
-                if st.button("Add Project"):
-                    newProdInfo = st.text_input("Add a new project. Use this format: name, description, link:")
-                    info = newProdInfo.split(",")
-                    if len(info) <= 3 and len(info) > 0:
-                        name = info[0].strip()
-                        desc = info[1].strip() if len(info) > 1 else ""
-                        link = info[2].strip() if len(info) > 2 else ""
-                        Product.addProduct(name, desc, link)
-                        st.success(f"Project '{name}' added!")
-                    else:    
-                        name = info[0].strip() if len(info) > 0 else ""
-                        desc = info[1].strip() if len(info) > 1 else ""
-                        link = info[2].strip() if len(info) > 2 else ""
-                        allElse = [f"{w}," if w == info[-1] else f"{w}" for w in info[3:]] if len(info) > 3 else ""
-                        Product.addProduct(name, desc, link)
-                        st.error(f"Project '{name}' not added!\nWrong inputS:\n{allElse}")
+                st.subheader("Current Projects:")
+                with st.container(border=True, height=325):
+                    if len(productsList) == 0:
+                        st.write("No projects added yet.")
+                    else:
+                        for product in st.session_state.productsList:
+                            product.displayProduct()
+
+            # add new project
+            with st.container():
+                st.subheader("Add New Project:")
+                with st.form(key="add_product_form"):
+                    name = st.text_input("Project Name")
+                    desc = st.text_area("Project Description")
+                    link = st.text_input("Project Link")
+                    submit_button = st.form_submit_button(label="Add Project")
+
+                    if submit_button:
+                        if name and desc and link:
+                            Product.addProduct(name, desc, link)
+                            st.success(f"Project '{name}' added successfully!")
+                        else:
+                            st.error("Please fill in all fields to add a project.")
+            
 
         with pubs:
             st.header("Publications")
@@ -51,8 +92,8 @@ def productsPage():
 
 def main():
     # st.sidebar.title("Navigation")
-    # page = st.sidebar.selectbox("Go to", ["Products", "Home", "Presentations", "Story", "Contact"])
-    page = "Products"
+    page = st.sidebar.selectbox("Go to", ["Products", "Home", "Presentations", "Story", "Contact"])
+    # page = "Products"
 
     if page == "Products":
         productsPage()
@@ -66,23 +107,5 @@ def main():
         st.switch_page("pages/Story.py")
 
 
-class Product:
-    def __init__(self, name, description, link):
-        self.name = name
-        self.description = description
-        self.link = link
-    
-    def displayProduct(self):
-        st.subheader(self.name)
-        st.write(self.description)
-        st.markdown(f"[Learn more]({self.link})")
-
-    def addProduct(name, desc, link):
-        newProdcut = Product(name, desc, link)
-        productsList.append(newProdcut)
-    
-    def removeProduct(name):
-        global productsList
-        productsList = [product for product in productsList if product.name != name]
 
 main()
